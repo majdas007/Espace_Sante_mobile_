@@ -26,6 +26,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -35,6 +36,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -158,12 +160,75 @@ public class ForumBasic extends BaseForm {
        
         for ( Question e : list) {
             
-        addButton(res.getImage("profile-pic.jpg"),e.getSujet_question() , false, "date", e.getNbr_rep());
+        addButton(res.getImage("profile-pic.jpg"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question());
 
 
         }
+        
     
 }
+        
+   private void addButton(Image img, String Contenu,String title, boolean liked, String likeCount, String commentCount,String id ) {
+       
+       int height = Display.getInstance().convertToPixels(11.5f);
+       int width = Display.getInstance().convertToPixels(14f);
+       Button image = new Button(img.fill(width, height));
+       Container cnt1 = new Container(BoxLayout.y());
+       Container cnt2 = new Container(BoxLayout.x());
+       
+       image.setUIID("Label");
+       Container cnt = BorderLayout.west(image);
+       cnt.setLeadComponent(image);
+       TextArea ta = new TextArea(title);
+       SpanLabel contenu = new SpanLabel();
+       contenu.setUIID("NewsTopLine");
+      contenu.setText(Contenu);
+       ta.setUIID("NewsTopLine");
+       ta.setEditable(false);
+       Button edit = new Button ("edit");
+       Button delete = new Button ("delete");
+       cnt2.add(delete);
+       cnt2.add(edit);
+       Dialog dlg = new Dialog("Edit Question");
+       TextArea edittext = new TextArea(15, 15, 10);
+       Button confirm = new Button("confirm");
+
+       edittext.setText(contenu.getText());
+       dlg.add(edittext);
+       dlg.add(confirm);
+        delete.addActionListener((evt) -> {
+            dlg.show();
+            
+        });     
+       Label likes = new Label(likeCount + " Likes  ", "NewsBottomLine");
+       likes.setTextPosition(RIGHT);
+       if(!liked) {
+           FontImage.setMaterialIcon(likes, FontImage.MATERIAL_FAVORITE);
+       } else {
+           Style s = new Style(likes.getUnselectedStyle());
+           s.setFgColor(0xff2d55);
+           FontImage heartImage = FontImage.createMaterial(FontImage.MATERIAL_FAVORITE, s);
+           likes.setIcon(heartImage);
+       }
+       Label comments = new Label(commentCount + " Reponses", "NewsBottomLine");
+       FontImage.setMaterialIcon(likes, FontImage.MATERIAL_CHAT);
+       
+       
+       cnt.add(BorderLayout.CENTER, 
+               BoxLayout.encloseY(
+                       ta,contenu,
+                       BoxLayout.encloseX(likes, comments)
+               ));
+       cnt1.add(cnt);
+       cnt1.add(cnt2);
+       add(cnt1);
+      image.addActionListener((evt) -> {
+           Resources res = null;
+           
+           new QuestionUi(id).getF().show();
+           
+       });
+   }
     
     private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
@@ -208,44 +273,7 @@ public class ForumBasic extends BaseForm {
 
         swipe.addTab("", page1);
     }
-    
-   private void addButton(Image img, String title, boolean liked, String likeCount, String commentCount) {
-       int height = Display.getInstance().convertToPixels(11.5f);
-       int width = Display.getInstance().convertToPixels(14f);
-       Button image = new Button(img.fill(width, height));
-       image.setUIID("Label");
-       Container cnt = BorderLayout.west(image);
-       cnt.setLeadComponent(image);
-       TextArea ta = new TextArea(title);
-       ta.setUIID("NewsTopLine");
-       ta.setEditable(false);
 
-       Label likes = new Label(likeCount + " Likes  ", "NewsBottomLine");
-       likes.setTextPosition(RIGHT);
-       if(!liked) {
-           FontImage.setMaterialIcon(likes, FontImage.MATERIAL_FAVORITE);
-       } else {
-           Style s = new Style(likes.getUnselectedStyle());
-           s.setFgColor(0xff2d55);
-           FontImage heartImage = FontImage.createMaterial(FontImage.MATERIAL_FAVORITE, s);
-           likes.setIcon(heartImage);
-       }
-       Label comments = new Label(commentCount + " Reponses", "NewsBottomLine");
-       FontImage.setMaterialIcon(likes, FontImage.MATERIAL_CHAT);
-       
-       
-       cnt.add(BorderLayout.CENTER, 
-               BoxLayout.encloseY(
-                       ta,
-                       BoxLayout.encloseX(likes, comments)
-               ));
-       add(cnt);
-       image.addActionListener((evt) -> {
-           QuestionUi a=new QuestionUi();
-        a.getF().show();
-           
-       });
-   }
     
     private void bindButtonSelection(Button b, Label arrow) {
         b.addActionListener(e -> {

@@ -81,6 +81,7 @@ public class QuestionService {
         return QuestionList;
 
     }
+  
   public ArrayList<Question> getspecquest(String json) {
 
         ArrayList<Question> listq = new ArrayList<>();
@@ -146,12 +147,12 @@ public class QuestionService {
   
    public ArrayList<Question> SpecQuestion(){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/EspaceSante/web/app_dev.php/getquestid/4");  
+        con.setUrl("http://localhost/EspaceSante/web/app_dev.php/getquestid?id=4");  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 QuestionService ser = new QuestionService();
-                listSpecificQuestion = ser.getspecquest(new String(con.getResponseData()));
+                listSpecificQuestion = ser.getListTask(new String(con.getResponseData()));
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
