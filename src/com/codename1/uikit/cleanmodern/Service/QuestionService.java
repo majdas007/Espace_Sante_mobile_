@@ -38,6 +38,21 @@ public class QuestionService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+      
+            public void editQuest(String id , String contenu) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/editquestioapi?id=" + id + "&contenu=" + contenu;
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
     
     
     

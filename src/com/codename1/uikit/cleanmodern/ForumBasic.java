@@ -160,7 +160,7 @@ public class ForumBasic extends BaseForm {
        
         for ( Question e : list) {
             
-        addButton(res.getImage("profile-pic.jpg"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question());
+        addButton(res.getImage("profile-pic.jpg"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question(),e);
 
 
         }
@@ -168,7 +168,7 @@ public class ForumBasic extends BaseForm {
     
 }
         
-   private void addButton(Image img, String Contenu,String title, boolean liked, String likeCount, String commentCount,String id ) {
+   private void addButton(Image img, String Contenu,String title, boolean liked, String likeCount, String commentCount,String id ,Question e ) {
        
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
@@ -192,12 +192,21 @@ public class ForumBasic extends BaseForm {
        Dialog dlg = new Dialog("Edit Question");
        TextArea edittext = new TextArea(15, 15, 10);
        Button confirm = new Button("confirm");
+       Button cancel = new Button("cancel");
 
        edittext.setText(contenu.getText());
        dlg.add(edittext);
        dlg.add(confirm);
-        delete.addActionListener((evt) -> {
+       dlg.add(cancel);
+       confirm.addActionListener((evt) -> {
+           QuestionService s = new QuestionService();
+           s.editQuest(e.getId_question(),edittext.getText());
+           f.show();
+       });
+               
+        edit.addActionListener((evt) -> {
             dlg.show();
+       
             
         });     
        Label likes = new Label(likeCount + " Likes  ", "NewsBottomLine");
