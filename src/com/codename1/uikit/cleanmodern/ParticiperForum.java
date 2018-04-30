@@ -22,10 +22,12 @@ package com.codename1.uikit.cleanmodern;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
+import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
@@ -35,20 +37,23 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.codename1.uikit.cleanmodern.Entite.Question;
+import com.codename1.uikit.cleanmodern.Service.QuestionService;
 
 /**
  * The user profile form
  *
  * @author Shai Almog
  */
-public class AjouterOP extends BaseForm {
+public class ParticiperForum extends BaseForm {
+    private ComboBox choice ;
 
-    public AjouterOP(Resources res) {
+    public ParticiperForum(Resources res) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Ajouter Objet Perdu");
+        setTitle("Aouter Votre Question");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
@@ -79,23 +84,31 @@ public class AjouterOP extends BaseForm {
                     )
                 )
         ));
-
-        TextField Nom = new TextField();
-       Nom.setUIID("Nom");
-        addStringValue("Nom", Nom);
-
-        TextField categorie = new TextField();
-        categorie.setUIID("categorie");
-        addStringValue("Categorie", categorie);
+        choice = new ComboBox<String>();
+        choice.addItem("categorie");
+        choice.addItem("Medecin");
+        choice.addItem("Sport");
+        choice.addItem("Nutrition");
+       
         
-        TextField Lieu = new TextField();
-         Lieu.setUIID("TextFieldBlack");
-        addStringValue(" Lieu ",  Lieu );
+        TextField Sujet = new TextField();
+       Sujet.setUIID("Sujet  ");
+        addStringValue("Sujet Question", Sujet);
+ addStringValue("",choice);
+        TextArea contenu = new TextArea(10, 10, 5);
+        contenu.setUIID("Contenu Question");
+        addStringValue("Contenu Question",  contenu );
+        
+        
         
          Button AJOUTER = new Button("ajouter");
         addStringValue("",  AJOUTER );
 
-        
+        AJOUTER.addActionListener((evt) -> {
+            Question quest = new Question(Sujet.getText(),contenu.getText(),choice.getSelectedItem().toString()) ;
+           QuestionService QuestionService =new QuestionService();
+           QuestionService.addQuest(quest);
+        });
     }
     
     private void addStringValue(String s, Component v) {

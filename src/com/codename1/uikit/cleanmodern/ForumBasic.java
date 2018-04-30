@@ -75,6 +75,8 @@ public class ForumBasic extends BaseForm {
         
         super.addSideMenu(res);
         tb.addSearchCommand(e -> {});
+                 QuestionService QuestionService =new QuestionService();
+
         
         Tabs swipe = new Tabs();
 
@@ -123,8 +125,7 @@ public class ForumBasic extends BaseForm {
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton all = RadioButton.createToggle("All", barGroup);
         all.setUIID("SelectBar");
-        RadioButton featured = RadioButton.createToggle("Featured", barGroup);
-        featured.setUIID("SelectBar");
+        
         RadioButton Medecin = RadioButton.createToggle("Medecin", barGroup);
         Medecin.setUIID("SelectBar");
         RadioButton Sport = RadioButton.createToggle("Sport", barGroup);
@@ -145,30 +146,42 @@ public class ForumBasic extends BaseForm {
             updateArrowPosition(all, arrow);
         });
         bindButtonSelection(all, arrow);
-        bindButtonSelection(featured, arrow);
+        bindButtonSelection(Medecin, arrow);
         bindButtonSelection(Sport, arrow);
         bindButtonSelection(myFavorite, arrow);
-        
+       
         // special case for rotation
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
-         QuestionService QuestionService =new QuestionService();
-
+        all.addActionListener((evt) -> {
+            
+        });
          List <Question> list = new ArrayList<>();
         list = QuestionService.getList2();
        
         for ( Question e : list) {
             
-        addButton(res.getImage("profile-pic.jpg"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question(),e);
+        addButton(res.getImage("user.png"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question(),e,res);
 
 
         }
         
+        Medecin.addActionListener((evt) -> {
+             List <Question> list1 = new ArrayList<>();
+        list1 = QuestionService.getList2();
+       
+        for ( Question e : list1) {
+            
+        addButton(res.getImage("user.png"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question(),e,res);
+
+
+        }
+        });
     
 }
         
-   private void addButton(Image img, String Contenu,String title, boolean liked, String likeCount, String commentCount,String id ,Question e ) {
+   private void addButton(Image img, String Contenu,String title, boolean liked, String likeCount, String commentCount,String id ,Question e ,Resources res) {
        
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
@@ -193,7 +206,9 @@ public class ForumBasic extends BaseForm {
        TextArea edittext = new TextArea(15, 15, 10);
        Button confirm = new Button("confirm");
        Button cancel = new Button("cancel");
-
+       cancel.addActionListener((evt) -> {
+           new ForumBasic(res).show();
+       });
        edittext.setText(contenu.getText());
        dlg.add(edittext);
        dlg.add(confirm);
@@ -201,7 +216,8 @@ public class ForumBasic extends BaseForm {
        confirm.addActionListener((evt) -> {
            QuestionService s = new QuestionService();
            s.editQuest(e.getId_question(),edittext.getText());
-           f.show();
+           new ForumBasic(res).show();
+           
        });
                
         edit.addActionListener((evt) -> {
@@ -209,6 +225,11 @@ public class ForumBasic extends BaseForm {
        
             
         });     
+        delete.addActionListener((evt) -> {
+             QuestionService s = new QuestionService();
+             s.deleteQuest(e.getId_question());
+             new ForumBasic(res).show();
+        });
        Label likes = new Label(likeCount + " Likes  ", "NewsBottomLine");
        likes.setTextPosition(RIGHT);
        if(!liked) {
@@ -232,7 +253,7 @@ public class ForumBasic extends BaseForm {
        cnt1.add(cnt2);
        add(cnt1);
       image.addActionListener((evt) -> {
-           Resources res = null;
+           
            
            new QuestionUi(id).getF().show();
            

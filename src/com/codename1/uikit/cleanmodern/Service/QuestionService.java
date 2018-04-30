@@ -26,7 +26,7 @@ public class QuestionService {
     
       public void addQuest(Question q) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/EspaceSante/web/app_dev.php/questionaddapi?contenu=" + q.getContenu_question() + "&subject=" + q.getSujet_question();
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/questionaddapi?contenu=" + q.getContenu_question() + "&subject=" + q.getSujet_question()+"&categorie="+q.getNom_catF();
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -53,6 +53,22 @@ public class QuestionService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+            
+           public void deleteQuest(String id ) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/deletequestioapi?id="+id ;
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }       
+            
     
     
     

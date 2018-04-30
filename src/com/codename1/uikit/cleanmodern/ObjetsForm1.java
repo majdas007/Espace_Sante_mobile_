@@ -91,7 +91,7 @@ public class ObjetsForm1 extends BaseForm {
       
         Button LesOPM = new Button("Messages");
         addStringValue("", LesOPM);
-                ajouter.addActionListener(e -> new AjouterOP(res).show());
+                ajouter.addActionListener(e -> new ParticiperForum(res).show());
 
       
 

@@ -45,24 +45,21 @@ public class Question {
     this.sujet_question = sujet ;
     this.approved_question = approved;
     
+    
     }
     
     
     
     
-     public Question( String sujet_question  ,String contenu_question  ) {
+     public Question( String sujet_question  ,String contenu_question , String nom_catF ) {
         
         this.sujet_question = sujet_question;
         this.contenu_question = contenu_question;
+        this.nom_catF = nom_catF;
         
     }
     
-    public Question( String sujet_question  ,String nom_catF,String contenu_question  ) {
-        
-        this.sujet_question = sujet_question;
-        this.contenu_question = contenu_question;
-        this.nom_catF =nom_catF;
-    }
+  
      public Question (String id_question, String contenu_question , String sujet_question ,  String Date_publication , String nbr_rep , String nom , String prenom)
      {
          this.contenu_question = contenu_question ; 

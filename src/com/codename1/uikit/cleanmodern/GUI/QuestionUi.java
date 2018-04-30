@@ -37,7 +37,7 @@ import com.codename1.uikit.cleanmodern.BaseForm;
 import com.codename1.uikit.cleanmodern.ObjetsForm1;
 import com.codename1.uikit.cleanmodern.ProfileForm;
 import com.codename1.uikit.cleanmodern.WalkthruForm;
-
+import com.codename1.ui.Image;
 
 /**
  *
@@ -46,18 +46,23 @@ import com.codename1.uikit.cleanmodern.WalkthruForm;
 public class QuestionUi {
       Form f;
       Button btn;
-      Resources res; 
+       private Resources theme;
       Label lb; 
+      private ImageViewer img ;
 
 
     String id;
     
    
      public QuestionUi( String  id ) {
-        
+        img = new ImageViewer();
         btn = new Button("back");
         lb = new Label("");
         f = new Form("Questions",BoxLayout.y());
+        Button add = new Button("Repondre");
+     /*   img.setImage(theme.getImage("profile-jpg.jpg"));
+        f.add(img);*/
+        f.add(add);
         f.add(lb);
           ReponseService ReponseService =new ReponseService();
           QuestionService question = new QuestionService();
@@ -96,8 +101,17 @@ public class QuestionUi {
      
      public Container addItem (Reponse r )            
     {
+       Container cnt=new Container(BoxLayout.y());
+
         Container cnt1=new Container(BoxLayout.y());
         Container cnt2=new Container(BoxLayout.x());
+        Container cnt3= new Container(BoxLayout.x());
+        Button edit = new Button ("Edit");
+        Button delete = new Button ("delete");
+       cnt3.add(edit);
+       cnt3.add(delete);
+
+
         Label lblid = new Label(r.getContenu_rep());
      Label lbldesc = new Label(r.getId_rep());
      
@@ -108,7 +122,9 @@ public class QuestionUi {
       
        cnt2.add(lbldesc);
        cnt2.add(cnt1);
-        return cnt2;
+       cnt.add(cnt2);
+       cnt.add(cnt3);
+        return cnt;
     }
      
      
