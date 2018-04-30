@@ -108,6 +108,7 @@ public class ParticiperForum extends BaseForm {
             Question quest = new Question(Sujet.getText(),contenu.getText(),choice.getSelectedItem().toString()) ;
            QuestionService QuestionService =new QuestionService();
            QuestionService.addQuest(quest);
+           new ForumBasic(res).show();
         });
     }
     

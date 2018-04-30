@@ -44,7 +44,7 @@ import com.codename1.ui.Image;
  *
  * @author majd
  */
-public class QuestionUi {
+public class QuestionUi extends BaseForm{
       Form f;
       Button btn;
        private Resources theme;

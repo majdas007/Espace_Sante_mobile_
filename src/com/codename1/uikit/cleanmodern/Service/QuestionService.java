@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author majd
  */
-public class QuestionService {
+public class QuestionService  {
     
     
       public void addQuest(Question q) {
