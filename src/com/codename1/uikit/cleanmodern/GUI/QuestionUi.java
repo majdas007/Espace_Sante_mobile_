@@ -13,6 +13,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.Command;
 import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -56,15 +57,28 @@ public class QuestionUi {
    
      public QuestionUi( String  id ) {
         img = new ImageViewer();
+         ReponseService ReponseService =new ReponseService();
+
         btn = new Button("back");
         lb = new Label("");
         f = new Form("Questions",BoxLayout.y());
         Button add = new Button("Repondre");
+        Dialog dlg = new Dialog("Ajouter Question");
+       TextArea edittext = new TextArea(15, 15, 10);
+       Button confirm = new Button("ajouter ");
+       Button cancel = new Button("annuler");
+       dlg.add(edittext);
+       dlg.add(confirm);
+       add.addActionListener((evt) -> {
+           dlg.show();
+       });
+       confirm.addActionListener((evt) -> {
+           ReponseService.addRep(edittext.getText(),id);
+       });
      /*   img.setImage(theme.getImage("profile-jpg.jpg"));
         f.add(img);*/
         f.add(add);
         f.add(lb);
-          ReponseService ReponseService =new ReponseService();
           QuestionService question = new QuestionService();
           List <Question> list1 = new ArrayList<>();
           list1= question.SpecQuestion();

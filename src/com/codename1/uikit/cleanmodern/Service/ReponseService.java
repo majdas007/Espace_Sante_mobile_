@@ -24,6 +24,63 @@ import java.util.Map;
 public class ReponseService {
     
     
+     public void addRep(String q,String id) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/addrepapi?addRep=" + q+ "&id=" + id;
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+      
+            public void editQuest(String id , String contenu) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/editquestioapi?id=" + id + "&contenu=" + contenu;
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+            
+           public void deleteQuest(String id ) {
+        ConnectionRequest con = new ConnectionRequest();
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/deletequestioapi?id="+id ;
+        con.setUrl(Url);
+
+        //System.out.println("tt");
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }       
+            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public Reponse Signlerep( String json )
     {
         Reponse rep = new Reponse();
