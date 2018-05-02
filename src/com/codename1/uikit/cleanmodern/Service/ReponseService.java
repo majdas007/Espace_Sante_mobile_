@@ -39,9 +39,9 @@ public class ReponseService {
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
       
-            public void editQuest(String id , String contenu) {
+            public void editrep(String id , String contenu) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/EspaceSante/web/app_dev.php/editquestioapi?id=" + id + "&contenu=" + contenu;
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/editrepapi?id="+ id + "&contenu=" + contenu;
         con.setUrl(Url);
 
         //System.out.println("tt");
@@ -54,9 +54,9 @@ public class ReponseService {
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
             
-           public void deleteQuest(String id ) {
+           public void deleterep(String id ) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/EspaceSante/web/app_dev.php/deletequestioapi?id="+id ;
+        String Url = "http://localhost/EspaceSante/web/app_dev.php/deleterepapi?id="+id ;
         con.setUrl(Url);
 
         //System.out.println("tt");

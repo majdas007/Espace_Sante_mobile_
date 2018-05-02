@@ -24,9 +24,12 @@ import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
+import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
@@ -36,6 +39,12 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.codename1.uikit.cleanmodern.Entite.Question;
+import com.codename1.uikit.cleanmodern.Entite.Reponse;
+import com.codename1.uikit.cleanmodern.Service.QuestionService;
+import com.codename1.uikit.cleanmodern.Service.ReponseService;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The user profile form
@@ -49,9 +58,35 @@ public class ObjetsForm1 extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Objets Perdus");
+        setTitle("Reponses");
         getContentPane().setScrollVisible(false);
+         Label lb = new Label("");
+         Button add = new Button("Repondre");
+               addStringValue("", add);
+
+        Dialog dlg = new Dialog("Ajouter Question");
+         TextArea edittext = new TextArea(15, 15, 10);
+       Button confirm = new Button("ajouter ");
+       Button cancel = new Button("annuler");
+       dlg.add(edittext);
+       dlg.add(confirm);
+        add.addActionListener((evt) -> {
+           dlg.show();
+       });
+        ReponseService ReponseService =new ReponseService();
+
         
+         List <Reponse> list = new ArrayList<>();
+        list = ReponseService.getrep("3");
+       
+           for( Reponse e : list)
+        {
+            addStringValue("",addItem(e));
+        }
+         
+         
+         
+         
         super.addSideMenu(res);
         
         tb.addSearchCommand(e -> {});
@@ -80,18 +115,6 @@ public class ObjetsForm1 extends BaseForm {
                 )
         ));
 
-        Button ajouter = new Button("Ajouter un objet perdu");
-        addStringValue("", ajouter);
-
-          Button MesOP = new Button("Mes Objets Perdus");
-        addStringValue("", MesOP);
-        
-           Button LesOP = new Button("Les Objets Perdus");
-        addStringValue("", LesOP);
-      
-        Button LesOPM = new Button("Messages");
-        addStringValue("", LesOPM);
-                ajouter.addActionListener(e -> new ParticiperForum(res).show());
 
       
 
@@ -102,5 +125,32 @@ public class ObjetsForm1 extends BaseForm {
         add(BorderLayout.west(new Label(s, "PaddedLabel")).
                 add(BorderLayout.CENTER, v));
         add(createLineSeparator(0xeeeeee));
+    }
+       public Container addItem (Reponse r )            
+    {
+       Container cnt=new Container(BoxLayout.y());
+
+        Container cnt1=new Container(BoxLayout.y());
+        Container cnt2=new Container(BoxLayout.x());
+        Container cnt3= new Container(BoxLayout.x());
+        Button edit = new Button ("Edit");
+        Button delete = new Button ("delete");
+       cnt3.add(edit);
+       cnt3.add(delete);
+
+
+        Label lblid = new Label(r.getContenu_rep());
+     Label lbldesc = new Label(r.getId_rep());
+     
+        
+     
+      
+       cnt1.add(lblid);
+      
+       cnt2.add(lbldesc);
+       cnt2.add(cnt1);
+       cnt.add(cnt2);
+       cnt.add(cnt3);
+        return cnt;
     }
 }

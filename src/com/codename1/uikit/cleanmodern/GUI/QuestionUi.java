@@ -52,7 +52,6 @@ public class QuestionUi extends BaseForm{
       private ImageViewer img ;
 
 
-    String id;
     
    
      public QuestionUi( String  id ) {
@@ -61,19 +60,26 @@ public class QuestionUi extends BaseForm{
 
         btn = new Button("back");
         lb = new Label("");
-        f = new Form("Questions",BoxLayout.y());
+        f = new Form("Reponse",BoxLayout.y());
         Button add = new Button("Repondre");
-        Dialog dlg = new Dialog("Ajouter Question");
-       TextArea edittext = new TextArea(15, 15, 10);
+        Dialog dlg = new Dialog("Ajouter Reponse");
+       TextArea addrep = new TextArea(15, 15, 10);
+
        Button confirm = new Button("ajouter ");
        Button cancel = new Button("annuler");
-       dlg.add(edittext);
+       dlg.add(addrep);
        dlg.add(confirm);
+       dlg.add(cancel);
+       cancel.addActionListener((evt) -> {
+           this.getF().show();
+       });
        add.addActionListener((evt) -> {
            dlg.show();
        });
+       
        confirm.addActionListener((evt) -> {
-           ReponseService.addRep(edittext.getText(),id);
+           ReponseService.addRep(addrep.getText(),id);
+           new QuestionUi(id).getF().show();
        });
      /*   img.setImage(theme.getImage("profile-jpg.jpg"));
         f.add(img);*/
@@ -96,42 +102,67 @@ public class QuestionUi extends BaseForm{
         }
         for( Reponse e : list)
         {
-            f.add(addItem(e));
+            f.add(addItem(e,id));
         }
-          
-        
-        
-        
-        
-        
+           
      
-       
-        
-            
-         
-        
-        
     }
      
-     public Container addItem (Reponse r )            
-    {
+     public Container addItem (Reponse r,String id )            
+    { 
+        
        Container cnt=new Container(BoxLayout.y());
-
+       Dialog dlg1 = new Dialog("Modifier Reponse");
+       TextArea editreponse = new TextArea(10, 15, 10);
+        Button modifier = new Button("Modifier");
+        Button annuler = new Button("annuler");
+        dlg1.add(editreponse);    
+        dlg1.add(modifier);
+        dlg1.add(annuler);
+      
+        
+        
+        modifier.addActionListener((evt) -> {
+            ReponseService rep = new ReponseService();
+            
+            if(editreponse.getText().equals(""))
+            {
+            Dialog.show("error","Champs Vides ","ok", null);
+            }
+            else {
+                rep.editrep(r.getId_rep(), editreponse.getText());
+                new QuestionUi(id).getF().show();
+            }
+            
+            
+            
+        });
+        editreponse.setText(r.getContenu_rep());
+        annuler.addActionListener((evt) -> {
+            this.getF().show();
+        });
+        
         Container cnt1=new Container(BoxLayout.y());
         Container cnt2=new Container(BoxLayout.x());
         Container cnt3= new Container(BoxLayout.x());
         Button edit = new Button ("Edit");
         Button delete = new Button ("delete");
+        
+        delete.addActionListener((evt) -> {
+     ReponseService rep = new ReponseService();
+     rep.deleterep(r.getId_rep());
+
+        });
+       
        cnt3.add(edit);
        cnt3.add(delete);
+       edit.addActionListener((evt) -> {
+           dlg1.show();
+       });
 
 
-        Label lblid = new Label(r.getContenu_rep());
-     Label lbldesc = new Label(r.getId_rep());
-     
-        
-     
-      
+        SpanLabel lblid = new SpanLabel(r.getContenu_rep());
+     Label lbldesc = new Label(r.getId_rep()); 
        cnt1.add(lblid);
       
        cnt2.add(lbldesc);
@@ -153,13 +184,6 @@ public class QuestionUi extends BaseForm{
         this.f = f;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
 
     
