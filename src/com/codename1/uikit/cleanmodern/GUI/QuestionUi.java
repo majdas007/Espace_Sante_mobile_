@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.BaseForm;
-import com.codename1.uikit.cleanmodern.ObjetsForm1;
 import com.codename1.uikit.cleanmodern.ProfileForm;
 import com.codename1.uikit.cleanmodern.WalkthruForm;
 import com.codename1.ui.Image;
@@ -70,6 +69,8 @@ public class QuestionUi extends BaseForm{
        dlg.add(addrep);
        dlg.add(confirm);
        dlg.add(cancel);
+       
+       
        cancel.addActionListener((evt) -> {
            this.getF().show();
        });
@@ -78,28 +79,25 @@ public class QuestionUi extends BaseForm{
        });
        
        confirm.addActionListener((evt) -> {
+           if(addrep.getText().equals(""))
+           {
+          Dialog.show("error","Champs vide ","ok", null);
+
+           }
+           else{
            ReponseService.addRep(addrep.getText(),id);
-           new QuestionUi(id).getF().show();
+           new QuestionUi(id).getF().show();}
+           
        });
      /*   img.setImage(theme.getImage("profile-jpg.jpg"));
         f.add(img);*/
         f.add(add);
         f.add(lb);
-          QuestionService question = new QuestionService();
-          List <Question> list1 = new ArrayList<>();
-          list1= question.SpecQuestion();
+          
+    
          List <Reponse> list = new ArrayList<>();
         list = ReponseService.getrep(id);
-        for  ( Question q : list1 )
-        {
-            try {
-                System.out.println(q.getId_question());
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            
-            
-        }
+       
         for( Reponse e : list)
         {
             f.add(addItem(e,id));
@@ -151,6 +149,7 @@ public class QuestionUi extends BaseForm{
         delete.addActionListener((evt) -> {
      ReponseService rep = new ReponseService();
      rep.deleterep(r.getId_rep());
+     new QuestionUi(id).getF().show();
 
         });
        

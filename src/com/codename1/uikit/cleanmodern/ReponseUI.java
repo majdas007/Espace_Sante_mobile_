@@ -20,8 +20,10 @@
 package com.codename1.uikit.cleanmodern;
 
 import com.codename1.components.ScaleImageLabel;
+import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
+import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
 import com.codename1.ui.Container;
@@ -41,6 +43,7 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.cleanmodern.Entite.Question;
 import com.codename1.uikit.cleanmodern.Entite.Reponse;
+import com.codename1.uikit.cleanmodern.GUI.QuestionUi;
 import com.codename1.uikit.cleanmodern.Service.QuestionService;
 import com.codename1.uikit.cleanmodern.Service.ReponseService;
 import java.util.ArrayList;
@@ -51,47 +54,23 @@ import java.util.List;
  *
  * @author Shai Almog
  */
-public class ObjetsForm1 extends BaseForm {
+public class ReponseUI extends BaseForm {
+    private ComboBox choice ;
 
-    public ObjetsForm1 (Resources res) {
+    public ReponseUI(Resources res ,String id) {
         super("Newsfeed", BoxLayout.y());
-        Toolbar tb = new Toolbar(true);
-        setToolbar(tb);
+       Toolbar tb = new Toolbar(true);
+       setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("Reponses");
         getContentPane().setScrollVisible(false);
-         Label lb = new Label("");
-         Button add = new Button("Repondre");
-               addStringValue("", add);
-
-        Dialog dlg = new Dialog("Ajouter Question");
-         TextArea edittext = new TextArea(15, 15, 10);
-       Button confirm = new Button("ajouter ");
-       Button cancel = new Button("annuler");
-       dlg.add(edittext);
-       dlg.add(confirm);
-        add.addActionListener((evt) -> {
-           dlg.show();
-       });
-        ReponseService ReponseService =new ReponseService();
-
         
-         List <Reponse> list = new ArrayList<>();
-        list = ReponseService.getrep("3");
-       
-           for( Reponse e : list)
-        {
-            addStringValue("",addItem(e));
-        }
-         
-         
-         
-         
         super.addSideMenu(res);
-        
-        tb.addSearchCommand(e -> {});
-        
+              ReponseService ReponseService =new ReponseService();
 
+      tb.addSearchCommand(e -> {});
+        
+        
         Image img = res.getImage("profile-background.jpg");
         if(img.getHeight() > Display.getInstance().getDisplayHeight() / 5) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 5);
@@ -100,12 +79,13 @@ public class ObjetsForm1 extends BaseForm {
         sl.setUIID("BottomPad");
         sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
 
-        Label facebook = new Label();
+        Label facebook = new Label("786 followers", res.getImage("facebook-logo.png"), "BottomPad");
+        Label twitter = new Label("486 followers", res.getImage("twitter-logo.png"), "BottomPad");
         facebook.setTextPosition(BOTTOM);
-
+        twitter.setTextPosition(BOTTOM);
+        
         add(LayeredLayout.encloseIn(
                 sl,
-
                 BorderLayout.south(
                     GridLayout.encloseIn(3, 
                             
@@ -114,11 +94,53 @@ public class ObjetsForm1 extends BaseForm {
                     )
                 )
         ));
+        Button add = new Button("Repondre");
+       Button confirm = new Button("ajouter ");
+       Button cancel = new Button("annuler");
+      TextArea addrep = new TextArea(15, 15, 10);
 
+       Dialog dlg = new Dialog("Ajouter Reponse");
 
+       dlg.add(addrep);
+       dlg.add(confirm);
+       dlg.add(cancel);
+       cancel.addActionListener((evt) -> {
+           new ReponseUI(res,id).show();
+           
+       }
+       );
+        addStringValue("", add);
+        TextField Sujet = new TextField();
+       Sujet.setUIID("Sujet  ");
+         add.addActionListener((evt) -> {
+           dlg.show();
+       });
+         
+         
+       confirm.addActionListener((evt) -> {
+           if(addrep.getText().equals(""))
+           {
+          Dialog.show("error","Champs vide ","ok", null);
+
+           }
+           else{
+           ReponseService.addRep(addrep.getText(),id);
+           new ReponseUI(res,id).show();
+           }
+           
+       });
+
+       List <Reponse> list = new ArrayList<>();
+        list = ReponseService.getrep(id);
+       
+        for( Reponse e : list)
+        {
+            addStringValue("", addItem(res.getImage("profile-pic.jpg"),e, id,res));
+        }
+        
+        
+        
       
-
-
     }
     
     private void addStringValue(String s, Component v) {
@@ -126,28 +148,77 @@ public class ObjetsForm1 extends BaseForm {
                 add(BorderLayout.CENTER, v));
         add(createLineSeparator(0xeeeeee));
     }
-       public Container addItem (Reponse r )            
-    {
+      public Container addItem (Image image,Reponse r,String id , Resources res )            
+    { 
+        int height = Display.getInstance().convertToPixels(2.5f);
+       int width = Display.getInstance().convertToPixels(2);
+       image.fill(width, height);
        Container cnt=new Container(BoxLayout.y());
-
+       Dialog dlg1 = new Dialog("Modifier Reponse");
+       TextArea editreponse = new TextArea(10, 15, 10);
+        Button modifier = new Button("Modifier");
+        Button annuler = new Button("annuler");
+        dlg1.add(editreponse);    
+        dlg1.add(modifier);
+        dlg1.add(annuler);
+      annuler.addActionListener((evt) -> {
+          new ReponseUI(res,id).show();
+      });
+        
+        
+        modifier.addActionListener((evt) -> {
+            ReponseService rep = new ReponseService();
+            
+            if(editreponse.getText().equals(""))
+            {
+            Dialog.show("error","Champs Vides ","ok", null);
+            }
+            else {
+                rep.editrep(r.getId_rep(), editreponse.getText());
+                new ReponseUI(res,id).show();
+            }
+            
+            
+            
+        });
+        
+       
+        
+        
+        
+        
+        
+        
+        editreponse.setText(r.getContenu_rep());
+//        annuler.addActionListener((evt) -> {
+//            this.getF().show();
+//        });
+        
         Container cnt1=new Container(BoxLayout.y());
         Container cnt2=new Container(BoxLayout.x());
         Container cnt3= new Container(BoxLayout.x());
         Button edit = new Button ("Edit");
         Button delete = new Button ("delete");
+        
+        delete.addActionListener((evt) -> {
+     ReponseService rep = new ReponseService();
+     rep.deleterep(r.getId_rep());
+     new ReponseUI(res,id).show();
+
+        });
+       
        cnt3.add(edit);
        cnt3.add(delete);
+       edit.addActionListener((evt) -> {
+           dlg1.show();
+       });
 
 
-        Label lblid = new Label(r.getContenu_rep());
-     Label lbldesc = new Label(r.getId_rep());
+        SpanLabel lblid = new SpanLabel(r.getContenu_rep());
      
-        
-     
-      
        cnt1.add(lblid);
       
-       cnt2.add(lbldesc);
+       cnt2.add(image);
        cnt2.add(cnt1);
        cnt.add(cnt2);
        cnt.add(cnt3);

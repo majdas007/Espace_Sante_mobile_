@@ -22,6 +22,16 @@ public class models {
         public void add(String string, double value) {
             
         }
+          protected CategorySeries buildCategoryDataset(String title, double[] values) {
+        CategorySeries series = new CategorySeries(title);
+        int k = 0;
+        for (double value : values) {
+            series.add("Project " + ++k, value);
+        }
+
+        return series;
+    }
+       
         
      
     }

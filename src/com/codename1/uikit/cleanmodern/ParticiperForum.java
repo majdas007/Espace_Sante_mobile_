@@ -24,6 +24,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -105,10 +106,25 @@ public class ParticiperForum extends BaseForm {
         addStringValue("",  AJOUTER );
 
         AJOUTER.addActionListener((evt) -> {
+            if(Sujet.getText().equals(""))
+            {
+                Dialog.show("error","Sujet manqunt ","ok", null);
+            }
+            else if(contenu.getText().equals("")) {
+                Dialog.show("error","contenu  Vides ","ok", null);
+            
+            }
+             else if(choice.getSelectedItem().toString().equals("categorie")  ) {
+               Dialog.show("error","vous devez choisir votre catégorie ","ok", null);
+            
+            }
+             else
+             {
             Question quest = new Question(Sujet.getText(),contenu.getText(),choice.getSelectedItem().toString()) ;
            QuestionService QuestionService =new QuestionService();
            QuestionService.addQuest(quest);
            new ForumBasic(res).show();
+             }
         });
     }
     

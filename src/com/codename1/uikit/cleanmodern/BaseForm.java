@@ -84,10 +84,10 @@ public class BaseForm extends Form {
         
         tb.addMaterialCommandToSideMenu("Forum", FontImage.MATERIAL_UPDATE, e -> new ForumBasic(res).show());
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
-        tb.addMaterialCommandToSideMenu("Objets Trouvés", FontImage.MATERIAL_SETTINGS, e -> new ObjetsForm1(res).show());
+      //  tb.addMaterialCommandToSideMenu("Objets Trouvés", FontImage.MATERIAL_SETTINGS, e -> new ObjetsForm1(res).show());
        tb.addMaterialCommandToSideMenu("Partipier Au forum", FontImage.MATERIAL_SETTINGS, e -> new ParticiperForum(res).show());
 
-        tb.addMaterialCommandToSideMenu("Objets Perdu", FontImage.MATERIAL_SETTINGS, e -> new ObjetsForm1(res).show());
+      //  tb.addMaterialCommandToSideMenu("Objets Perdu", FontImage.MATERIAL_SETTINGS, e -> new ObjetsForm1(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
     }
 }

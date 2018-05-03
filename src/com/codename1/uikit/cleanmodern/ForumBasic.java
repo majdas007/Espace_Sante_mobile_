@@ -130,12 +130,12 @@ public class ForumBasic extends BaseForm {
         Medecin.setUIID("SelectBar");
         RadioButton Sport = RadioButton.createToggle("Sport", barGroup);
         Sport.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
-        myFavorite.setUIID("SelectBar");
+        RadioButton Nutrition = RadioButton.createToggle("Nutrition", barGroup);
+        Nutrition.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
         
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, Medecin, Sport, myFavorite),
+                GridLayout.encloseIn(4, all, Medecin, Sport, Nutrition),
                 FlowLayout.encloseBottom(arrow)
         ));
         
@@ -148,15 +148,13 @@ public class ForumBasic extends BaseForm {
         bindButtonSelection(all, arrow);
         bindButtonSelection(Medecin, arrow);
         bindButtonSelection(Sport, arrow);
-        bindButtonSelection(myFavorite, arrow);
+        bindButtonSelection(Nutrition, arrow);
        
         // special case for rotation
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
-        all.addActionListener((evt) -> {
-            
-        });
+       
          List <Question> list = new ArrayList<>();
         list = QuestionService.getList2();
        
@@ -166,18 +164,9 @@ public class ForumBasic extends BaseForm {
 
 
         }
+      
         
-        Medecin.addActionListener((evt) -> {
-             List <Question> list1 = new ArrayList<>();
-        list1 = QuestionService.getList2();
-       
-        for ( Question e : list1) {
-            
-        addButton(res.getImage("user.png"),e.getContenu_question(),e.getSujet_question() , false, "date", e.getNbr_rep(),e.getId_question(),e,res);
-
-
-        }
-        });
+      
     
 }
         
@@ -214,9 +203,15 @@ public class ForumBasic extends BaseForm {
        dlg.add(confirm);
        dlg.add(cancel);
        confirm.addActionListener((evt) -> {
+           if(edittext.getText().equals(""))
+           {               
+               Dialog.show("error","Champs vide ","ok", null);
+}
+           else{
            QuestionService s = new QuestionService();
            s.editQuest(e.getId_question(),edittext.getText());
            new ForumBasic(res).show();
+           }
            
        });
                
@@ -255,7 +250,7 @@ public class ForumBasic extends BaseForm {
       image.addActionListener((evt) -> {
            
            
-           new QuestionUi(id).getF().show();
+           new ReponseUI(res, id).show();
            
        });
    }

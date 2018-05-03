@@ -170,6 +170,21 @@ public class QuestionService  {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listQuestion;
     }
+     ArrayList<Question> listcat = new ArrayList<>();
+  
+   public ArrayList<Question> getcat( String cat){       
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/EspaceSante/web/app_dev.php/getcat?cat="+cat);  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                QuestionService ser = new QuestionService();
+                listcat = ser.getListTask(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listcat;
+    }
    
    
    

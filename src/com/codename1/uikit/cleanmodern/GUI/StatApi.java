@@ -13,6 +13,7 @@ import com.codename1.charts.views.PieChart;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 
+
 /**
  *
  * @author majd
@@ -32,16 +33,7 @@ public class StatApi {
         }
         return renderer;
     }
-   
-       protected CategorySeries buildCategoryDataset(String title, double[] values) {
-        CategorySeries series = new CategorySeries(title);
-        int k = 0;
-        for (double value : values) {
-            series.add("Project " + ++k, value);
-        }
-
-        return series;
-    }
+      
      
      
      
@@ -65,16 +57,27 @@ public class StatApi {
         r.setHighlighted(true);
 
         // Create the chart ... pass the values and renderer to the chart object.
-        PieChart chart = new PieChart(buildCategoryDataset("Project budget", values), renderer);
+     //  PieChart chart = new PieChart(buildCategoryDataset("project_budget", values), renderer);
 
         // Wrap the chart in a Component so we can add it to a form
-        ChartComponent c = new ChartComponent(chart);
+    //ChartComponent c = new ChartComponent(chart);
 
         // Create a form and show it.
         Form f = new Form("Budget");
         f.setLayout(new BorderLayout());
-        f.addComponent(BorderLayout.CENTER, c);
+     //f.addComponent(BorderLayout.CENTER, c);
         return f;
+    }
+
+
+    private CategorySeries buildCategoryDataset(String project_budget, double[] values) {
+         CategorySeries series = new CategorySeries(project_budget);
+        int k = 0;
+        for (double value : values) {
+            series.add("Project " + ++k, value);
+        }
+
+        return series;
     }
     
 }
