@@ -10,8 +10,10 @@ import com.codename1.charts.renderers.DefaultRenderer;
 import com.codename1.charts.renderers.SimpleSeriesRenderer;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.PieChart;
+import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.uikit.cleanmodern.Service.QuestionService;
 
 
 /**
@@ -37,10 +39,11 @@ public class StatApi {
      
      
      
-      public Form createPieChartForm() {
-
+      public Container createPieChartForm() {
+            QuestionService service = new QuestionService();
         // Generate the values
-        double[] values = new double[]{12, 14, 11, 10, 19};
+        double[] values = new double[]{service.catsport(), service.catmedecin(), service.catnutrion()};
+          System.out.println();
 
         // Set up the renderer
         int[] colors = new int[]{ColorUtil.BLUE, ColorUtil.GREEN, ColorUtil.MAGENTA, ColorUtil.YELLOW, ColorUtil.CYAN};
@@ -57,24 +60,27 @@ public class StatApi {
         r.setHighlighted(true);
 
         // Create the chart ... pass the values and renderer to the chart object.
-     //  PieChart chart = new PieChart(buildCategoryDataset("project_budget", values), renderer);
+      PieChart chart = new PieChart(buildCategoryDataset("project_budget", values), renderer);
 
         // Wrap the chart in a Component so we can add it to a form
-    //ChartComponent c = new ChartComponent(chart);
+    ChartComponent c = new ChartComponent(chart);
 
         // Create a form and show it.
-        Form f = new Form("Budget");
+        Container f = new Container();
         f.setLayout(new BorderLayout());
-     //f.addComponent(BorderLayout.CENTER, c);
+     f.addComponent(BorderLayout.CENTER, c);
         return f;
     }
 
 
     private CategorySeries buildCategoryDataset(String project_budget, double[] values) {
+        String[] categoriename = new String[]{"Sport","Medecin","Nutrition"};
+        
          CategorySeries series = new CategorySeries(project_budget);
         int k = 0;
         for (double value : values) {
-            series.add("Project " + ++k, value);
+            series.add(categoriename[k], value);
+            k++;
         }
 
         return series;

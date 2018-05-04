@@ -206,8 +206,95 @@ public class QuestionService  {
     }
    
    
+    
+  
+  public double getcatforum(String json) {
+
+        Double nbr = null; 
+
+        try {
+            System.out.println(json);
+            JSONParser j = new JSONParser();
+
+            Map<String, Object> Categorie = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            
+           
+            List<Map<String, Object>> list = (List<Map<String, Object>>) Categorie.get("root");
+
+            for (Map<String, Object> obj : list) {
+             
+                   
+                nbr = Double.parseDouble(obj.get("nbr").toString());
+
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+       
+        return nbr;
+
+    }
+  
+  
    
-   
+   Double nbr = null ;
+    public double catnutrion(){       
+        ConnectionRequest con = new ConnectionRequest();
+        
+        con.setUrl("http://localhost/EspaceSante/web/app_dev.php/getNutritioncatnbr");  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                QuestionService ser = new QuestionService();
+                nbr = ser.getcatforum(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return nbr;
+    }
+    
+    
+    
+    
+    
+    
+   Double nbr1 = null ;
+    public double catsport(){       
+        ConnectionRequest con = new ConnectionRequest();
+        
+        con.setUrl("http://localhost/EspaceSante/web/app_dev.php/getsportcatnbr");  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                QuestionService ser = new QuestionService();
+                nbr1 = ser.getcatforum(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return nbr1;
+    }
+    
+    
+    
+    
+    
+   Double nbr2 = null ;
+    public double catmedecin(){       
+        ConnectionRequest con = new ConnectionRequest();
+        
+        con.setUrl("http://localhost/EspaceSante/web/app_dev.php/getmedecincatnbr");  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                QuestionService ser = new QuestionService();
+                nbr2 = ser.getcatforum(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return nbr2;
+    }
    
    
    

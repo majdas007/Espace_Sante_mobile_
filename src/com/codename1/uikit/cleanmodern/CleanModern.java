@@ -52,9 +52,10 @@ public class CleanModern {
             current.show();
             return;
         }
-        new WalkthruForm(theme).show();
+       // new WalkthruForm(theme).show();
       // new ObjectsForm(theme, id).show();
-    // new StatApi().createPieChartForm().show();
+  //new StatApi().createPieChartForm().show();
+    new StatUI(theme).show();
     }
 
     public void stop() {
