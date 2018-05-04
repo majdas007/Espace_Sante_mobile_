@@ -74,7 +74,7 @@ public class ForumBasic extends BaseForm {
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {});
+       // tb.addSearchCommand(e -> {});
                  QuestionService QuestionService =new QuestionService();
 
         
@@ -123,19 +123,14 @@ public class ForumBasic extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
         
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton all = RadioButton.createToggle("All", barGroup);
+        RadioButton all = RadioButton.createToggle("Bienvenu dans notre forum", barGroup);
         all.setUIID("SelectBar");
         
-        RadioButton Medecin = RadioButton.createToggle("Medecin", barGroup);
-        Medecin.setUIID("SelectBar");
-        RadioButton Sport = RadioButton.createToggle("Sport", barGroup);
-        Sport.setUIID("SelectBar");
-        RadioButton Nutrition = RadioButton.createToggle("Nutrition", barGroup);
-        Nutrition.setUIID("SelectBar");
+      
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
         
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, Medecin, Sport, Nutrition),
+                GridLayout.encloseIn(1, all),
                 FlowLayout.encloseBottom(arrow)
         ));
         
@@ -146,9 +141,7 @@ public class ForumBasic extends BaseForm {
             updateArrowPosition(all, arrow);
         });
         bindButtonSelection(all, arrow);
-        bindButtonSelection(Medecin, arrow);
-        bindButtonSelection(Sport, arrow);
-        bindButtonSelection(Nutrition, arrow);
+
        
         // special case for rotation
         addOrientationListener(e -> {
