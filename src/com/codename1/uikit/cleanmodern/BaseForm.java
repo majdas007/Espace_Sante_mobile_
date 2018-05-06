@@ -89,5 +89,27 @@ public class BaseForm extends Form {
 
       //  tb.addMaterialCommandToSideMenu("Objets Perdu", FontImage.MATERIAL_SETTINGS, e -> new ObjetsForm1(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
+           tb.addMaterialCommandToSideMenu("Statistique", FontImage.MATERIAL_EXIT_TO_APP, e -> new StatUI(res).show());
+           tb.addMaterialCommandToSideMenu("Evenement", FontImage.MATERIAL_SETTINGS, e -> { 
+        AfficherEvent a=new AfficherEvent(res);
+        a.getF().show();
+        });
+        tb.addMaterialCommandToSideMenu("Offre d'emploi", FontImage.MATERIAL_SETTINGS, e -> {
+            
+        AfficherOffre a=new AfficherOffre(res);
+        a.getF().show();
+        });
+        
+         tb.addMaterialCommandToSideMenu("Ajoutez votre Offre d'emploi", FontImage.MATERIAL_SETTINGS, e -> {
+            
+        new AjoutOffre(res).show();
+        });
+         
+         tb.addMaterialCommandToSideMenu("Ajoutez votre Evenemenet", FontImage.MATERIAL_SETTINGS, e -> {
+            
+        new AjouterEvent(res).show();
+     
+        });
+
     }
 }
